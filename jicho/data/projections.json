@@ -1,0 +1,145 @@
+{
+  "2027": {
+    "label": "Pre-election impact · By August 2027",
+    "horizon": "2027",
+    "rows": [
+      {
+        "sector": "Economy",
+        "items": [
+          "Revised tax bands expected to increase net pay for workers earning under Ksh 50,000/month by 5–8% (National Treasury, 2025).",
+          "Housing levy fund projected to reach Ksh 62 billion — sufficient for ~30,000 affordable units at current build costs (NHC, 2025).",
+          "Digital asset tax (3%) projected to generate Ksh 4–8 billion annually depending on market activity (KRA estimate).",
+          "VAT removal on bread and cooking oil estimated to reduce household food expenditure by Ksh 300–600/month for low-income families."
+        ]
+      },
+      {
+        "sector": "Health",
+        "items": [
+          "SHA coverage of informal sector workers — if registration meets targets — could extend health access to 8 million additional Kenyans by 2027 (MOH target).",
+          "Emergency treatment guarantee at public hospitals takes effect Jan 2027 pending bill passage and Treasury allocation.",
+          "Cancer treatment fund: Ksh 1.5M/patient/year — covers ~12,000 new cancer patients annually at current incidence rates (KEMRI, 2024)."
+        ]
+      },
+      {
+        "sector": "Housing",
+        "items": [
+          "Government target: 250,000 affordable units by Dec 2027. Independent analysts (KNBS 2025) project 80,000–120,000 as more realistic at current construction pace.",
+          "Mortgage guarantee fund could reduce deposit requirements for first-time buyers from 20% to 10% — affecting ~15,000 qualifying buyers annually."
+        ]
+      },
+      {
+        "sector": "Business",
+        "items": [
+          "Electronic business registration has cut processing time from 14 days to under 1 day for online registrations (BRS implementation report, 2025).",
+          "40% reduction in annual filing fees benefits an estimated 220,000 SMEs with turnover under Ksh 5 million."
+        ]
+      }
+    ]
+  },
+  "2030": {
+    "label": "5-year view · By 2030",
+    "horizon": "2030",
+    "rows": [
+      {
+        "sector": "Economy",
+        "items": [
+          "If housing levy sustains at current rates, the fund could reach Ksh 350B by 2030 — enough to fund ~200,000 units in principle (IEA projection).",
+          "Digital economy taxes (VAT on digital services + 3% digital asset levy) could contribute 1.5–2% of total tax revenues by 2030 as smartphone penetration deepens.",
+          "Informal sector SHA integration is the key fiscal variable: full integration reduces government health subsidy burden by ~Ksh 18B annually."
+        ]
+      },
+      {
+        "sector": "Health",
+        "items": [
+          "Full SHA rollout, if successful, would make Kenya one of few sub-Saharan countries with near-universal health insurance — WHO benchmark is 80% enrolled.",
+          "Cancer treatment fund will face actuarial pressure as diagnosis rates rise with improved screening. Independent review required by 2028 per the Bill's provisions.",
+          "Level 2–3 facility free outpatient cover expected to shift 30–40% of current private clinic visits for lower-income households (MOH modelling, 2025)."
+        ]
+      },
+      {
+        "sector": "Youth & Education",
+        "items": [
+          "CBC graduates (first full cohort) enter the job market from 2028. Labour market readiness of this cohort relative to KCSE graduates is the key education unknown.",
+          "TVET expansion under current budgets projected to add 180,000 annual enrolment slots by 2030 (State Dept. TVET, 2025).",
+          "If CBC technical pathways function as designed, artisan and technician supply could reduce Kenya's skilled trades deficit by 25% by 2032."
+        ]
+      },
+      {
+        "sector": "Debt",
+        "items": [
+          "Kenya's public debt: ~Ksh 11 trillion (2025). Eurobond refinancing obligations between 2028–2032 are the major near-term fiscal risk.",
+          "At current trajectories, debt service could consume 42–48% of revenues by 2030 — constraining public investment in health, education, and infrastructure (IMF Art. IV, 2024)."
+        ]
+      }
+    ]
+  },
+  "2035": {
+    "label": "10-year view · By 2035",
+    "horizon": "2035",
+    "rows": [
+      {
+        "sector": "Demographics",
+        "items": [
+          "Kenya's population projected at 65–68 million by 2035 (KNBS). Urban population expected to cross 40%, putting sustained pressure on housing, transport, and water in major cities.",
+          "Youth (15–34) remain the dominant demographic cohort. The quality and volume of formal jobs created 2025–2035 determines whether this is a demographic dividend or deficit."
+        ]
+      },
+      {
+        "sector": "Fiscal",
+        "items": [
+          "Debt service could consume 45–55% of revenue by 2035 at current accumulation, severely limiting public spending flexibility (IMF, 2024).",
+          "No current bill addresses the medium-term debt consolidation path. Absent new fiscal legislation, the structural gap widens."
+        ]
+      },
+      {
+        "sector": "Climate",
+        "items": [
+          "Kenya's NDC: 32% GHG reduction by 2030. No bills currently before Parliament address carbon markets or sectoral emission caps — implementation gap is significant.",
+          "Agricultural productivity in ASAL areas (89% of Kenya's land mass) projected to decline 10–20% by 2035 under median climate scenarios absent adaptation investment (CGIAR, 2024).",
+          "Rising sea levels threaten coastal infrastructure in Mombasa, Malindi, and Lamu — no current coastal adaptation bill before Parliament."
+        ]
+      },
+      {
+        "sector": "Digital",
+        "items": [
+          "The Data Protection Bill (currently 1st reading) shapes Kenya's digital regulatory posture. Whether Kenya is a net exporter or importer of digital services by 2035 depends on regulatory choices made 2025–2030.",
+          "Connectivity to 25,000 public buildings (Digital Superhighway) will compound into education and health outcomes over a decade if maintenance funding is sustained."
+        ]
+      }
+    ]
+  },
+  "2045": {
+    "label": "20-year view · By 2045",
+    "horizon": "2045",
+    "rows": [
+      {
+        "sector": "Generational",
+        "items": [
+          "Children born in 2025 will be 20 in 2045. The healthcare (SHA), education (CBC), and housing infrastructure being built now directly determines their life chances.",
+          "If the affordable housing programme reaches 500,000+ units over 20 years, it would represent a structural shift in Kenya's housing tenure patterns — currently 75% of urban Kenyans rent."
+        ]
+      },
+      {
+        "sector": "Digital & AI",
+        "items": [
+          "AI and automation projected to affect 30–40% of formal sector jobs in East Africa by 2040 (World Bank, 2023). No current bill addresses workforce transition or AI governance.",
+          "Kenya's data protection and digital regulation choices made 2025–2028 will determine its position in the 2045 digital economy — whether as a rule-taker or rule-maker."
+        ]
+      },
+      {
+        "sector": "Governance",
+        "items": [
+          "The 2027 election result will determine whether current policy directions are deepened or reversed. All 20-year projections are contingent on 2027–2032 governance choices.",
+          "Kenya's 47 counties will be 30 years old by 2043. The depth of devolution — fiscal autonomy, service delivery capacity — is a major governance variable that current legislation only partially addresses."
+        ]
+      },
+      {
+        "sector": "Environment",
+        "items": [
+          "Without structural changes to agricultural practice, Kenya's food import dependence is projected to increase from current 15% to 30–40% of staple needs by 2045 under median climate scenarios.",
+          "Nairobi's water stress is projected to reach critical levels by 2040 under current population and infrastructure trajectories (NEMA, 2023). No current water infrastructure bill before Parliament."
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jicho la Wananchi — Kenya Civic Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0d0d0d; --white: #f5f2eb; --cream: #ede9df;
+    --green: #1a4a2e; --green-mid: #2d6e45; --green-light: #4a9e65;
+    --red: #c0392b; --red-light: #e74c3c; --amber: #d4870a;
+    --ink: #1c1c1c; --muted: #6b6860; --border: #d4cfbf;
+    --surface: #f0ece0; --card: #faf8f3;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--white); color:var(--ink); font-family:'DM Sans',sans-serif; font-size:15px; line-height:1.6; }
+
+  .masthead { background:var(--green); color:var(--white); padding:0 40px; display:flex; align-items:center; justify-content:space-between; border-bottom:3px solid var(--green-light); position:sticky; top:0; z-index:100; height:64px; }
+  .masthead-brand .swahili { font-family:'Playfair Display',serif; font-size:22px; font-weight:900; }
+  .masthead-brand .tagline { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--green-light); }
+  .masthead-meta { display:flex; align-items:center; gap:24px; }
+  .live-badge { display:flex; align-items:center; gap:6px; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1px; text-transform:uppercase; color:var(--green-light); }
+  .live-dot { width:7px; height:7px; border-radius:50%; background:#4ade80; animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .masthead-date { font-family:'DM Mono',monospace; font-size:11px; color:rgba(245,242,235,0.5); letter-spacing:1px; }
+
+  .hero-band { background:var(--black); color:var(--white); padding:48px 40px 40px; border-bottom:1px solid #2a2a2a; overflow:hidden; position:relative; }
+  .hero-band::before { content:'JICHO LA WANANCHI'; position:absolute; right:-20px; top:50%; transform:translateY(-50%) rotate(-90deg); font-family:'Playfair Display',serif; font-size:80px; font-weight:900; color:rgba(255,255,255,0.03); white-space:nowrap; pointer-events:none; }
+  .hero-grid { display:grid; grid-template-columns:1fr auto; gap:40px; align-items:end; max-width:1100px; }
+  .hero-headline { font-family:'Playfair Display',serif; font-size:42px; font-weight:700; line-height:1.1; letter-spacing:-1px; max-width:600px; }
+  .hero-headline em { font-style:normal; color:var(--green-light); }
+  .hero-sub { margin-top:12px; font-size:15px; color:rgba(245,242,235,0.6); max-width:520px; }
+  .countdown-block { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:20px 28px; text-align:center; min-width:180px; }
+  .countdown-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--green-light); margin-bottom:8px; }
+  .countdown-days { font-family:'Playfair Display',serif; font-size:52px; font-weight:900; line-height:1; }
+  .countdown-sub { font-family:'DM Mono',monospace; font-size:11px; color:rgba(245,242,235,0.4); margin-top:4px; }
+
+  .nav-tabs { background:var(--cream); border-bottom:1px solid var(--border); padding:0 40px; display:flex; overflow-x:auto; }
+  .nav-tab { padding:14px 20px; font-family:'DM Mono',monospace; font-size:12px; letter-spacing:1px; text-transform:uppercase; cursor:pointer; border-bottom:3px solid transparent; white-space:nowrap; color:var(--muted); transition:all 0.2s; background:none; border-left:none; border-right:none; border-top:none; }
+  .nav-tab:hover { color:var(--ink); }
+  .nav-tab.active { color:var(--green); border-bottom-color:var(--green); font-weight:500; }
+
+  .main { max-width:1200px; margin:0 auto; padding:40px; }
+  .content-panel { display:none; }
+  .content-panel.active { display:block; animation:fadeSlide 0.3s ease; }
+  @keyframes fadeSlide { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+  .stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:40px; }
+  .stat-card { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:20px; position:relative; overflow:hidden; }
+  .stat-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--green); }
+  .stat-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+  .stat-value { font-family:'Playfair Display',serif; font-size:36px; font-weight:700; line-height:1; }
+  .stat-sub { font-size:12px; color:var(--muted); margin-top:6px; }
+
+  .section-header { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:20px; padding-bottom:12px; border-bottom:1px solid var(--border); }
+  .section-title { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; }
+  .section-meta { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); }
+
+  .filter-bar { display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; }
+  .filter-chip { padding:6px 14px; border:1px solid var(--border); border-radius:100px; font-size:12px; font-family:'DM Mono',monospace; cursor:pointer; background:var(--card); color:var(--muted); transition:all 0.15s; }
+  .filter-chip:hover, .filter-chip.active { background:var(--green); color:var(--white); border-color:var(--green); }
+
+  .search-input { width:100%; padding:12px 16px; border:1px solid var(--border); border-radius:6px; font-size:14px; font-family:'DM Sans',sans-serif; background:var(--card); color:var(--ink); outline:none; margin-bottom:16px; }
+  .search-input:focus { border-color:var(--green); }
+
+  .bills-list { display:flex; flex-direction:column; gap:12px; }
+  .bill-card { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:20px 24px 20px 32px; cursor:pointer; transition:all 0.2s; position:relative; }
+  .bill-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:4px; border-radius:8px 0 0 8px; background:var(--border); }
+  .bill-card[data-status="passed"]::before { background:var(--green); }
+  .bill-card[data-status="second-reading"]::before { background:var(--amber); }
+  .bill-card[data-status="committee"]::before { background:#6366f1; }
+  .bill-card[data-status="withdrawn"]::before { background:var(--red); }
+  .bill-card:hover { border-color:var(--green); box-shadow:0 4px 16px rgba(26,74,46,0.1); }
+  .bill-top { display:flex; align-items:flex-start; justify-content:space-between; gap:20px; margin-bottom:8px; }
+  .bill-name { font-family:'Playfair Display',serif; font-size:17px; font-weight:700; line-height:1.3; }
+  .bill-badges { display:flex; gap:8px; flex-shrink:0; }
+  .badge { padding:3px 10px; border-radius:4px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1px; text-transform:uppercase; white-space:nowrap; font-weight:500; }
+  .badge-passed { background:#dcfce7; color:#166534; }
+  .badge-second { background:#fef9c3; color:#854d0e; }
+  .badge-first { background:#f3f4f6; color:#4b5563; }
+  .badge-committee { background:#ede9fe; color:#4c1d95; }
+  .badge-withdrawn { background:#fee2e2; color:#991b1b; }
+  .bill-summary { font-size:14px; color:var(--muted); line-height:1.55; margin-bottom:10px; }
+  .bill-sw { font-size:13px; color:var(--muted); font-style:italic; margin-bottom:10px; border-left:2px solid var(--border); padding-left:10px; }
+  .bill-meta-row { display:flex; gap:20px; font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); flex-wrap:wrap; }
+  .key-facts { margin-top:10px; display:flex; flex-direction:column; gap:4px; }
+  .key-fact { font-size:13px; color:var(--ink); display:flex; gap:8px; }
+  .key-fact::before { content:'→'; color:var(--green-mid); flex-shrink:0; }
+
+  .vote-bar-container { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:24px; margin-bottom:20px; }
+  .vote-bar { height:32px; border-radius:4px; overflow:hidden; display:flex; margin:16px 0; }
+  .vote-seg-aye { background:var(--green-mid); }
+  .vote-seg-nay { background:var(--red-light); }
+  .vote-seg-abs { background:var(--border); }
+  .vote-legend { display:flex; gap:20px; font-family:'DM Mono',monospace; font-size:12px; }
+  .legend-dot { display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:6px; }
+
+  .horizons-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:32px; }
+  .horizon-card { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:20px; cursor:pointer; transition:all 0.2s; }
+  .horizon-card.active { background:var(--green); color:var(--white); border-color:var(--green); }
+  .horizon-card.active .horizon-label, .horizon-card.active .horizon-desc { color:rgba(245,242,235,0.7); }
+  .horizon-year { font-family:'Playfair Display',serif; font-size:28px; font-weight:900; line-height:1; margin-bottom:4px; }
+  .horizon-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+  .horizon-desc { font-size:13px; color:var(--muted); line-height:1.4; }
+
+  .proj-table { background:var(--card); border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+  .proj-header { background:var(--green); color:var(--white); padding:16px 24px; display:flex; justify-content:space-between; align-items:center; }
+  .proj-title { font-family:'Playfair Display',serif; font-size:18px; font-weight:700; }
+  .proj-horizon-label { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--green-light); }
+  .proj-row { display:grid; grid-template-columns:140px 1fr; border-bottom:1px solid var(--border); }
+  .proj-row:last-child { border-bottom:none; }
+  .proj-sector { padding:16px 20px; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1px; text-transform:uppercase; color:var(--muted); border-right:1px solid var(--border); display:flex; align-items:center; font-weight:500; background:var(--surface); }
+  .proj-content { padding:16px 20px; display:flex; flex-direction:column; gap:8px; }
+  .proj-item { font-size:13px; line-height:1.55; display:flex; gap:8px; }
+  .proj-item::before { content:'·'; color:var(--green-mid); flex-shrink:0; font-size:18px; line-height:1.2; }
+
+  .gazette-item { border-bottom:1px solid var(--border); padding:20px 0; display:grid; grid-template-columns:110px 1fr; gap:20px; }
+  .gazette-item:last-child { border-bottom:none; }
+  .gazette-date { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); padding-top:3px; }
+  .gazette-title { font-family:'Playfair Display',serif; font-size:15px; font-weight:700; margin-bottom:4px; }
+  .gazette-body { font-size:13px; color:var(--muted); line-height:1.6; }
+  .gazette-sw { font-size:12px; color:var(--muted); font-style:italic; margin-top:6px; border-left:2px solid var(--border); padding-left:8px; }
+
+  .scorecard-header { background:var(--black); color:var(--white); padding:32px 40px; border-radius:8px; margin-bottom:28px; display:grid; grid-template-columns:1fr auto; gap:40px; align-items:center; }
+  .scorecard-title { font-family:'Playfair Display',serif; font-size:28px; font-weight:700; margin-bottom:8px; }
+  .scorecard-desc { font-size:14px; color:rgba(245,242,235,0.6); max-width:480px; }
+  .dte-num { font-family:'Playfair Display',serif; font-size:64px; font-weight:900; line-height:1; color:var(--green-light); }
+  .dte-label { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:rgba(245,242,235,0.4); margin-top:4px; }
+  .tracker-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:32px; }
+  .tracker-card { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:20px; }
+  .tracker-person { display:flex; gap:14px; align-items:center; margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid var(--border); }
+  .tracker-avatar { width:48px; height:48px; border-radius:50%; background:var(--green); display:flex; align-items:center; justify-content:center; font-family:'DM Mono',monospace; font-size:14px; color:var(--white); font-weight:500; flex-shrink:0; }
+  .tracker-name { font-size:15px; font-weight:600; }
+  .tracker-role { font-size:12px; color:var(--muted); font-family:'DM Mono',monospace; }
+  .tracker-stats { display:flex; flex-direction:column; gap:10px; }
+  .tracker-stat-row { display:flex; justify-content:space-between; font-size:13px; }
+  .tracker-stat-label { color:var(--muted); }
+  .tracker-stat-val { font-weight:600; font-family:'DM Mono',monospace; font-size:12px; }
+  .tracker-note { font-size:12px; color:var(--muted); font-style:italic; margin-top:8px; }
+
+  .loading { color:var(--muted); font-family:'DM Mono',monospace; font-size:12px; padding:20px 0; }
+  .error-msg { color:var(--red); font-size:13px; padding:12px; background:#fee2e2; border-radius:6px; margin-bottom:16px; }
+
+  .footer { background:var(--black); color:rgba(245,242,235,0.4); padding:32px 40px; margin-top:60px; display:flex; justify-content:space-between; align-items:center; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1px; flex-wrap:wrap; gap:12px; }
+  .footer-brand { font-family:'Playfair Display',serif; font-size:18px; color:var(--white); font-weight:700; opacity:0.7; }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-brand">
+    <div class="swahili">Jicho la Wananchi</div>
+    <div class="tagline">The People's Eye · Kenya Civic Tracker</div>
+  </div>
+  <div class="masthead-meta">
+    <div class="live-badge"><span class="live-dot"></span>Live data</div>
+    <span class="masthead-date" id="today-date"></span>
+  </div>
+</header>
+
+<section class="hero-band">
+  <div class="hero-grid">
+    <div>
+      <h1 class="hero-headline">Tracking what your <em>government</em> does in plain language.</h1>
+      <p class="hero-sub">Every bill, every executive action, every budget decision explained for every Kenyan citizen. No commentary. No spin. Just facts, and what they mean for your life.</p>
+    </div>
+    <div class="countdown-block">
+      <div class="countdown-label">Next general election</div>
+      <div class="countdown-days" id="days-countdown">—</div>
+      <div class="countdown-sub">days remaining to Aug 2027</div>
+    </div>
+  </div>
+</section>
+
+<nav class="nav-tabs">
+  <button class="nav-tab active" onclick="showTab('overview')">Overview</button>
+  <button class="nav-tab" onclick="showTab('bills')">Bills &amp; Legislation</button>
+  <button class="nav-tab" onclick="showTab('projections')">Impact Projections</button>
+  <button class="nav-tab" onclick="showTab('gazette')">Gazette &amp; Executive</button>
+  <button class="nav-tab" onclick="showTab('scorecard')">2027 Scorecard</button>
+</nav>
+
+<main class="main">
+
+  <!-- OVERVIEW -->
+  <div id="panel-overview" class="content-panel active">
+    <div class="stats-row" id="stats-row">
+      <div class="stat-card"><div class="stat-label">Bills this session</div><div class="stat-value" id="stat-bills">—</div><div class="stat-sub" id="stat-bills-sub">Loading...</div></div>
+      <div class="stat-card"><div class="stat-label">Passed into law</div><div class="stat-value" id="stat-passed">—</div><div class="stat-sub">Acts assented by President</div></div>
+      <div class="stat-card"><div class="stat-label">In committee / reading</div><div class="stat-value" id="stat-pending">—</div><div class="stat-sub">Under active consideration</div></div>
+      <div class="stat-card"><div class="stat-label">Days to 2027 election</div><div class="stat-value" id="stat-days">—</div><div class="stat-sub">August 2027 general election</div></div>
+    </div>
+    <div class="section-header"><h2 class="section-title">Recent legislative activity</h2><span class="section-meta" id="overview-updated">Loading...</span></div>
+    <div class="bills-list" id="overview-bills"><div class="loading">Loading bills...</div></div>
+  </div>
+
+  <!-- BILLS -->
+  <div id="panel-bills" class="content-panel">
+    <input type="text" class="search-input" placeholder="Search bills by name, sector, or keyword..." id="bill-search" oninput="filterBills()">
+    <div class="filter-bar">
+      <span class="filter-chip active" onclick="setFilter(this,'all')">All bills</span>
+      <span class="filter-chip" onclick="setFilter(this,'passed')">Passed</span>
+      <span class="filter-chip" onclick="setFilter(this,'committee')">In committee</span>
+      <span class="filter-chip" onclick="setFilter(this,'second-reading')">2nd reading</span>
+      <span class="filter-chip" onclick="setFilter(this,'first-reading')">1st reading</span>
+      <span class="filter-chip" onclick="setFilter(this,'withdrawn')">Withdrawn</span>
+    </div>
+    <div class="bills-list" id="bills-list"><div class="loading">Loading bills...</div></div>
+  </div>
+
+  <!-- PROJECTIONS -->
+  <div id="panel-projections" class="content-panel">
+    <div class="section-header"><h2 class="section-title">Policy impact projections</h2><span class="section-meta">Based on current legislation pipeline</span></div>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:24px;max-width:700px;line-height:1.7">These projections reflect what research and expert analysis suggest may happen if current policies are fully implemented. They are not predictions. Sources are cited for each projection.</p>
+    <div class="horizons-grid">
+      <div class="horizon-card active" onclick="loadProjection(this,'2027')"><div class="horizon-year">2027</div><div class="horizon-label">Pre-election</div><div class="horizon-desc">Visible before August 2027 vote</div></div>
+      <div class="horizon-card" onclick="loadProjection(this,'2030')"><div class="horizon-year">2030</div><div class="horizon-label">5-year view</div><div class="horizon-desc">Medium-term structural changes</div></div>
+      <div class="horizon-card" onclick="loadProjection(this,'2035')"><div class="horizon-year">2035</div><div class="horizon-label">10-year view</div><div class="horizon-desc">Generational effects emerging</div></div>
+      <div class="horizon-card" onclick="loadProjection(this,'2045')"><div class="horizon-year">2045</div><div class="horizon-label">20-year view</div><div class="horizon-desc">Long-term trajectory</div></div>
+    </div>
+    <div id="proj-table" class="proj-table"><div class="loading" style="padding:24px">Loading projections...</div></div>
+  </div>
+
+  <!-- GAZETTE -->
+  <div id="panel-gazette" class="content-panel">
+    <div class="section-header"><h2 class="section-title">Executive actions &amp; Kenya Gazette notices</h2><span class="section-meta">Cabinet · Presidential orders · Appointments</span></div>
+    <div id="gazette-list"><div class="loading">Loading notices...</div></div>
+  </div>
+
+  <!-- SCORECARD -->
+  <div id="panel-scorecard" class="content-panel">
+    <div class="scorecard-header">
+      <div>
+        <div class="scorecard-title">2027 Voter Scorecard</div>
+        <p class="scorecard-desc">A factual record of what each leader promised, what they delivered, and their legislative activity — for you to judge before you vote in August 2027.</p>
+        <p style="font-size:13px;margin-top:12px;color:rgba(245,242,235,0.4);font-family:'DM Mono',monospace">No scores. No ratings. Facts only — you decide.</p>
+      </div>
+      <div style="text-align:center">
+        <div class="dte-num" id="sc-days">—</div>
+        <div class="dte-label">Days to election</div>
+      </div>
+    </div>
+    <div class="tracker-grid" id="scorecard-grid"><div class="loading">Loading scorecard...</div></div>
+    <div id="scorecard-methodology" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:24px;margin-top:8px;display:none">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Methodology note</div>
+      <p id="scorecard-method-text" style="font-size:13px;color:var(--muted);line-height:1.7"></p>
+    </div>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-brand">Jicho la Wananchi</div>
+  <div>Sources: National Assembly Hansard · Kenya Gazette · National Treasury · State House</div>
+  <div>Open data · Non-partisan · No advertising</div>
+</footer>
+
+<script>
+// ── Utilities ────────────────────────────────────────────────────────────────
+
+const $ = id => document.getElementById(id);
+
+const statusBadge = s => {
+  const map = {
+    'passed': ['badge-passed','Passed'],
+    'second-reading': ['badge-second','2nd Reading'],
+    'first-reading': ['badge-first','1st Reading'],
+    'committee': ['badge-committee','In Committee'],
+    'withdrawn': ['badge-withdrawn','Withdrawn'],
+  };
+  const [cls, label] = map[s] || ['badge-first', s];
+  return `<span class="badge ${cls}">${label}</span>`;
+};
+
+const fmt = d => d ? new Date(d).toLocaleDateString('en-KE',{day:'numeric',month:'short',year:'numeric'}) : '';
+
+// ── Date setup ───────────────────────────────────────────────────────────────
+
+$('today-date').textContent = new Date().toLocaleDateString('en-KE',{day:'numeric',month:'long',year:'numeric'}).toUpperCase();
+
+// ── Stats ────────────────────────────────────────────────────────────────────
+
+async function loadStats() {
+  try {
+    const d = await fetch('/api/stats').then(r => r.json());
+    $('days-countdown').textContent = d.days_to_election.toLocaleString();
+    $('stat-days').textContent = d.days_to_election.toLocaleString();
+    $('sc-days').textContent = d.days_to_election.toLocaleString();
+    $('stat-bills').textContent = d.bills.total;
+    $('stat-passed').textContent = d.bills.passed;
+    $('stat-pending').textContent = (d.bills.committee || 0) + (d.bills.second_reading || 0) + (d.bills.first_reading || 0);
+    $('stat-bills-sub').textContent = `${d.bills.passed} passed · ${d.bills.committee} in committee · ${d.bills.first_reading + d.bills.second_reading} pending`;
+    $('overview-updated').textContent = 'Updated ' + new Date().toLocaleDateString('en-KE');
+  } catch(e) {
+    console.warn('Stats load failed', e);
+  }
+}
+
+// ── Bills ────────────────────────────────────────────────────────────────────
+
+let allBills = [];
+let activeFilter = 'all';
+
+function billCard(b) {
+  const facts = (b.key_facts_list || []).slice(0, 4).map(f =>
+    `<div class="key-fact">${f}</div>`
+  ).join('');
+
+  const swBlock = b.summary_sw
+    ? `<p class="bill-sw">${b.summary_sw}</p>`
+    : '';
+
+  const factsBlock = facts
+    ? `<div class="key-facts">${facts}</div>`
+    : '';
+
+  const voteBlock = (b.vote_ayes > 0)
+    ? `<span class="bill-meta-item">🗳 Ayes ${b.vote_ayes} · Nays ${b.vote_nays}</span>`
+    : '';
+
+  return `
+    <div class="bill-card" data-status="${b.status}" data-id="${b.id}">
+      <div class="bill-top">
+        <div class="bill-name">${b.title}</div>
+        <div class="bill-badges">${statusBadge(b.status)}</div>
+      </div>
+      <p class="bill-summary">${b.summary_en || b.raw_text?.slice(0,200) || 'Summary being generated…'}</p>
+      ${swBlock}
+      ${factsBlock}
+      <div class="bill-meta-row">
+        ${b.sponsor ? `<span class="bill-meta-item">📋 ${b.sponsor}</span>` : ''}
+        ${b.date_tabled ? `<span class="bill-meta-item">📅 ${fmt(b.date_tabled)}</span>` : ''}
+        ${b.who_affected ? `<span class="bill-meta-item">👥 ${b.who_affected}</span>` : ''}
+        ${voteBlock}
+      </div>
+    </div>`;
+}
+
+async function loadBills() {
+  try {
+    const d = await fetch('/api/bills?limit=50').then(r => r.json());
+    allBills = d.bills || [];
+    renderBills($('overview-bills'), allBills.slice(0, 4));
+    renderBills($('bills-list'), allBills);
+  } catch(e) {
+    $('bills-list').innerHTML = `<div class="error-msg">Could not load bills. ${e.message}</div>`;
+  }
+}
+
+function renderBills(container, bills) {
+  if (!bills.length) { container.innerHTML = '<div class="loading">No bills found.</div>'; return; }
+  container.innerHTML = bills.map(billCard).join('');
+}
+
+function setFilter(el, filter) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  activeFilter = filter;
+  filterBills();
+}
+
+function filterBills() {
+  const q = $('bill-search').value.toLowerCase();
+  const filtered = allBills.filter(b => {
+    const matchStatus = activeFilter === 'all' || b.status === activeFilter;
+    const text = `${b.title} ${b.summary_en || ''} ${b.raw_text || ''}`.toLowerCase();
+    const matchQ = !q || text.includes(q);
+    return matchStatus && matchQ;
+  });
+  renderBills($('bills-list'), filtered);
+}
+
+// ── Projections ───────────────────────────────────────────────────────────────
+
+async function loadProjection(el, year) {
+  document.querySelectorAll('.horizon-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  $('proj-table').innerHTML = '<div class="loading" style="padding:24px">Loading...</div>';
+  try {
+    const d = await fetch(`/api/projections/${year}`).then(r => r.json());
+    const rows = (d.rows || []).map(row => `
+      <div class="proj-row">
+        <div class="proj-sector">${row.sector}</div>
+        <div class="proj-content">
+          ${(row.items || []).map(item => `<div class="proj-item">${item}</div>`).join('')}
+        </div>
+      </div>`).join('');
+
+    $('proj-table').innerHTML = `
+      <div class="proj-header">
+        <div class="proj-title">${d.label || year}</div>
+        <div class="proj-horizon-label">${year}</div>
+      </div>
+      ${rows}`;
+  } catch(e) {
+    $('proj-table').innerHTML = `<div class="error-msg" style="margin:16px">Could not load projections.</div>`;
+  }
+}
+
+// ── Gazette ───────────────────────────────────────────────────────────────────
+
+async function loadGazette() {
+  try {
+    const [g, e] = await Promise.all([
+      fetch('/api/gazette').then(r => r.json()),
+      fetch('/api/executive').then(r => r.json()),
+    ]);
+
+    const allItems = [
+      ...(g.notices || []).map(n => ({...n, _type: 'gazette'})),
+      ...(e.actions || []).map(a => ({...a, _type: 'executive'})),
+    ].sort((a,b) => {
+      const da = a.date_published || a.date_issued || '';
+      const db2 = b.date_published || b.date_issued || '';
+      return db2.localeCompare(da);
+    });
+
+    if (!allItems.length) { $('gazette-list').innerHTML = '<div class="loading">No notices found.</div>'; return; }
+
+    $('gazette-list').innerHTML = allItems.map(item => {
+      const date = item.date_published || item.date_issued || '';
+      const summary = item.summary_en || item.raw_text?.slice(0,300) || '';
+      const swBlock = item.summary_sw ? `<div class="gazette-sw">${item.summary_sw}</div>` : '';
+      return `
+        <div class="gazette-item">
+          <div class="gazette-date">${fmt(date)}</div>
+          <div>
+            <div class="gazette-title">${item.title}</div>
+            <p class="gazette-body">${summary}</p>
+            ${swBlock}
+          </div>
+        </div>`;
+    }).join('');
+  } catch(e) {
+    $('gazette-list').innerHTML = `<div class="error-msg">Could not load gazette. ${e.message}</div>`;
+  }
+}
+
+// ── Scorecard ─────────────────────────────────────────────────────────────────
+
+async function loadScorecard() {
+  try {
+    const d = await fetch('/api/scorecard').then(r => r.json());
+    const leaders = (d.leaders || []).filter(l => !l.note || l.role.includes('President'));
+
+    $('scorecard-grid').innerHTML = leaders.map(l => {
+      const stats = l.manifesto_pledges_tracked ? `
+        <div class="tracker-stat-row"><span class="tracker-stat-label">Manifesto pledges tracked</span><span class="tracker-stat-val">${l.manifesto_pledges_tracked}</span></div>
+        <div class="tracker-stat-row"><span class="tracker-stat-label">Fully implemented</span><span class="tracker-stat-val">${l.pledges_implemented}</span></div>
+        <div class="tracker-stat-row"><span class="tracker-stat-label">In progress</span><span class="tracker-stat-val">${l.pledges_in_progress}</span></div>
+        <div class="tracker-stat-row"><span class="tracker-stat-label">Not started / reversed</span><span class="tracker-stat-val">${l.pledges_not_started_or_reversed}</span></div>
+        <div class="tracker-stat-row"><span class="tracker-stat-label">Executive orders signed</span><span class="tracker-stat-val">${l.executive_orders_signed}</span></div>
+        <div class="tracker-stat-row"><span class="tracker-stat-label">Bills assented to</span><span class="tracker-stat-val">${l.bills_assented}</span></div>
+      ` : `
+        <div class="tracker-stat-row"><span class="tracker-stat-label">Attendance rate</span><span class="tracker-stat-val">${l.attendance_pct}%</span></div>
+        <div class="tracker-stat-row"><span class="tracker-stat-label">Bills sponsored</span><span class="tracker-stat-val">${l.bills_sponsored}</span></div>
+        <div class="tracker-stat-row"><span class="tracker-stat-label">Motions moved</span><span class="tracker-stat-val">${l.motions_moved}</span></div>
+        <div class="tracker-stat-row"><span class="tracker-stat-label">Questions asked</span><span class="tracker-stat-val">${l.questions_asked}</span></div>
+        <div class="tracker-stat-row"><span class="tracker-stat-label">Division votes</span><span class="tracker-stat-val">${l.votes_participated}/${l.votes_total}</span></div>
+      `;
+
+      return `
+        <div class="tracker-card">
+          <div class="tracker-person">
+            <div class="tracker-avatar">${l.avatar_initials}</div>
+            <div>
+              <div class="tracker-name">${l.name}</div>
+              <div class="tracker-role">${l.role}</div>
+            </div>
+          </div>
+          <div class="tracker-stats">${stats}</div>
+          ${l.note ? `<p class="tracker-note">${l.note}</p>` : ''}
+        </div>`;
+    }).join('');
+
+    if (d.methodology) {
+      $('scorecard-method-text').textContent = d.methodology;
+      $('scorecard-methodology').style.display = 'block';
+    }
+  } catch(e) {
+    $('scorecard-grid').innerHTML = `<div class="error-msg">Could not load scorecard.</div>`;
+  }
+}
+
+// ── Tab routing ───────────────────────────────────────────────────────────────
+
+const tabs = ['overview','bills','projections','gazette','scorecard'];
+const loaded = {};
+
+function showTab(name) {
+  document.querySelectorAll('.content-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  $('panel-'+name).classList.add('active');
+  document.querySelectorAll('.nav-tab')[tabs.indexOf(name)].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if (!loaded[name]) { loaded[name] = true; lazyLoad(name); }
+}
+
+function lazyLoad(name) {
+  if (name === 'bills') loadBills();
+  if (name === 'projections') loadProjection(document.querySelector('.horizon-card.active'), '2027');
+  if (name === 'gazette') loadGazette();
+  if (name === 'scorecard') loadScorecard();
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+
+(async () => {
+  await loadStats();
+  await loadBills(); // needed for overview tab
+  loadProjection(document.querySelector('.horizon-card.active'), '2027');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+{
+  "methodology": "Pledge tracking is based on the Kenya Kwanza coalition manifesto (2022). Implementation status assessed against government reports, Hansard records, and Kenya Gazette notices. Attendance and vote records sourced from the National Assembly clerk. This platform tracks verifiable activity — not quality of performance.",
+  "last_updated": "2026-03-22",
+  "leaders": [
+    {
+      "id": "william-ruto",
+      "name": "William Samoei Ruto",
+      "role": "President of Kenya",
+      "party": "UDA / Kenya Kwanza",
+      "avatar_initials": "WR",
+      "manifesto_pledges_tracked": 67,
+      "pledges_implemented": 18,
+      "pledges_in_progress": 29,
+      "pledges_not_started_or_reversed": 20,
+      "executive_orders_signed": 11,
+      "bills_assented": 34,
+      "cabinet_sittings": 48,
+      "state_visits_outbound": 22,
+      "source": "State House press releases, Kenya Gazette, Kenya Kwanza Manifesto 2022"
+    },
+    {
+      "id": "rigathi-gachagua",
+      "name": "Rigathi Gachagua",
+      "role": "Deputy President (impeached Oct 2024)",
+      "party": "UDA",
+      "avatar_initials": "RG",
+      "note": "Impeached by Parliament on 17 October 2024. Replaced by Kithure Kindiki.",
+      "source": "National Assembly Hansard, Oct 2024"
+    },
+    {
+      "id": "kithure-kindiki",
+      "name": "Kithure Kindiki",
+      "role": "Deputy President (from Oct 2024)",
+      "party": "UDA",
+      "avatar_initials": "KK",
+      "note": "Nominated by President Ruto and approved by Parliament on 18 October 2024 following Gachagua's impeachment.",
+      "source": "National Assembly Hansard, Oct 2024"
+    },
+    {
+      "id": "kimani-ichungwah",
+      "name": "Kimani Ichung'wah",
+      "role": "MP · Kikuyu Constituency · National Assembly Majority Leader",
+      "party": "UDA",
+      "avatar_initials": "KI",
+      "constituency": "Kikuyu",
+      "county": "Kiambu",
+      "attendance_pct": 84,
+      "bills_sponsored": 7,
+      "motions_moved": 14,
+      "questions_asked": 31,
+      "votes_participated": 259,
+      "votes_total": 280,
+      "cdf_projects": 22,
+      "source": "National Assembly Hansard, Clerk of the National Assembly"
+    },
+    {
+      "id": "junet-mohamed",
+      "name": "Junet Mohamed",
+      "role": "MP · Suna East · National Assembly Minority Leader",
+      "party": "ODM",
+      "avatar_initials": "JM",
+      "constituency": "Suna East",
+      "county": "Migori",
+      "attendance_pct": 71,
+      "bills_sponsored": 3,
+      "motions_moved": 9,
+      "questions_asked": 44,
+      "votes_participated": 241,
+      "votes_total": 280,
+      "cdf_projects": 17,
+      "source": "National Assembly Hansard"
+    },
+    {
+      "id": "opiyo-wandayi",
+      "name": "Opiyo Wandayi",
+      "role": "MP · Ugenya · Leader of Official Opposition",
+      "party": "ODM",
+      "avatar_initials": "OW",
+      "constituency": "Ugenya",
+      "county": "Siaya",
+      "attendance_pct": 78,
+      "bills_sponsored": 5,
+      "motions_moved": 11,
+      "questions_asked": 52,
+      "votes_participated": 248,
+      "votes_total": 280,
+      "cdf_projects": 14,
+      "source": "National Assembly Hansard"
+    }
+  ]
+}

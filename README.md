@@ -1,2 +1,0 @@
-# jicho-wananchi
-# jicho-wananchi
