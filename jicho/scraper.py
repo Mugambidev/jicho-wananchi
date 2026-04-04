@@ -415,7 +415,7 @@ def scrape_state_house():
 
     url = "https://www.president.go.ke/news/"
     try:
-        r = httpx.get(url, headers=HEADERS, timeout=TIMEOUT, follow_redirects=True)
+        r = httpx.get(url, headers=HEADERS, timeout=TIMEOUT, follow_redirects=True, verify=False)
         r.raise_for_status()
         soup = BeautifulSoup(r.text, "lxml")
 
