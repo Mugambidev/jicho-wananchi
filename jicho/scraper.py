@@ -419,24 +419,23 @@ def scrape_state_house():
         r.raise_for_status()
         soup = BeautifulSoup(r.text, "lxml")
 
-        articles = soup.find_all(["article", "div"], class_=re.compile(r"post|news|article", re.I))
-        for article in articles[:15]:
-            title_el = article.find(["h1", "h2", "h3", "h4"])
-            if not title_el:
+        links = soup.find_all("a", href=re.compile(r"president\.go\.ke/[a-z]", re.I))
+        seen = set()
+        for link in links:
+            title = clean_text(link.get_text())
+            href = link.get("href", url)
+            if len(title) < 20:
                 continue
-            title = clean_text(title_el.get_text())
-            if len(title) < 15:
+            if title in seen:
                 continue
-            body_el = article.find("p")
-            body = clean_text(body_el.get_text()) if body_el else title
-
+            seen.add(title)
             action = {
                 "id": make_id(title),
                 "title": title,
                 "action_type": detect_action_type(title),
                 "date_issued": datetime.now().strftime("%Y-%m-%d"),
-                "source_url": url,
-                "raw_text": body,
+                "source_url": href,
+                "raw_text": title,
             }
             upsert_executive_action(action)
             items_found += 1
